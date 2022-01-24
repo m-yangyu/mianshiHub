@@ -1,4 +1,5 @@
 import { defineConfig } from 'umi';
+import { VanillaExtractPlugin } from '@vanilla-extract/webpack-plugin';
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -6,4 +7,15 @@ export default defineConfig({
   },
   routes: [{ path: '/', component: '@/pages/index' }],
   fastRefresh: {},
+  webpack5: {},
+  extraPostCSSPlugins: [
+    require('postcss-import'),
+    require('tailwindcss')({
+      config: './tailwind.config.js',
+    }),
+    require('postcss-nested'),
+  ],
+  chainWebpack: (memo) => {
+    memo.plugin('vanilla-extract').use(VanillaExtractPlugin);
+  },
 });
